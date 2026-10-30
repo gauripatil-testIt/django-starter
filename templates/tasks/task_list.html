@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h1>Tasks</h1>
+
+<form method="get">
+  <select name="status">
+    <option value="" {% if not current_status %}selected{% endif %}>All statuses</option>
+    {% for value, label in status_choices %}
+      <option value="{{ value }}" {% if current_status == value %}selected{% endif %}>{{ label }}</option>
+    {% endfor %}
+  </select>
+  <input type="search" name="q" value="{{ current_q }}" placeholder="Search tasks">
+  <input type="hidden" name="sort" value="{{ current_sort }}">
+  <button type="submit">Filter</button>
+</form>
+
+<p>
+  Sort by due date:
+  {% if current_sort == 'desc' %}
+    <a href="{{ sort_url }}">Descending</a>
+  {% else %}
+    <a href="{{ sort_url }}">Ascending</a>
+  {% endif %}
+</p>
+
+{% if tasks %}
+  <ul>
+    {% for task in tasks %}
+      <li>
+        {{ task.title }}
+        {% if task.due_date %}— due {{ task.due_date }}{% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+{% elif current_status or current_q %}
+  <p>No tasks match your filters</p>
+  <p><a href="{% url 'task_list' %}">Clear filters</a></p>
+{% else %}
+  <p>No tasks yet</p>
+{% endif %}
+{% endblock %}
