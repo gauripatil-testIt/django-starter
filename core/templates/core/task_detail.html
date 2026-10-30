@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>{{ task.title }}</h1>
+<p>{{ task.description }}</p>
+<p>Status: {{ task.get_status_display }}</p>
+{% if task.due_date %}<p>Due: {{ task.due_date }}</p>{% endif %}
+{% endblock %}
