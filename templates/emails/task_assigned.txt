@@ -1,0 +1,4 @@
+You have been assigned a task.
+
+Task: {{ task.title }}
+Link: {{ task_url }}
